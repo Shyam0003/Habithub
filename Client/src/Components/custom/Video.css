@@ -1,0 +1,35 @@
+.video-wrapper {
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Responsive Video Grid */
+.video-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    justify-items: center;
+}
+
+/* Individual Video Styling */
+.video {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #000;
+}
+
+/* Error Message Styling */
+.error {
+    color: red;
+    font-weight: bold;
+}
