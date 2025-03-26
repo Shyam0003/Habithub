@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Video from "./Video"; // Import Video component
 import "./Habit.css";
 
 function Habit() {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     name: "",
     profilePic: "default.png",
@@ -54,7 +54,7 @@ function Habit() {
       await axios.post("http://localhost:3000/habits", newHabitData);
       loadHabits(); // Refresh the list
       setNewHabit(""); // Clear input after adding
-      alert("Habit added successfully!"); // User feedback
+      alert("Habit added successfully!");
     } catch (error) {
       console.error("Error adding habit:", error);
       alert("Failed to add habit. Please try again.");
@@ -65,7 +65,7 @@ function Habit() {
     try {
       await axios.delete(`http://localhost:3000/habits/${id}`);
       loadHabits(); // Refresh the list
-      alert("Habit deleted successfully!"); // User feedback
+      alert("Habit deleted successfully!");
     } catch (error) {
       console.error("Error deleting habit:", error);
       alert("Failed to delete habit. Please try again.");
@@ -106,7 +106,7 @@ function Habit() {
       loadHabits(); // Refresh the list
       setEditingHabit(null); // Clear editing state
       setEditingHabitName(""); // Clear input
-      alert("Habit updated successfully!"); // User feedback
+      alert("Habit updated successfully!");
     } catch (error) {
       console.error("Error updating habit:", error);
       alert("Failed to update habit. Please try again.");
@@ -125,7 +125,7 @@ function Habit() {
 
   const handleSubmitProgress = () => {
     alert("Progress submitted successfully!");
-    navigate("/report"); // Use navigate instead of history.push
+    navigate("/report");
   };
 
   const HabitList = ({ habits, onDelete, onToggle, onEdit }) => (
@@ -153,9 +153,9 @@ function Habit() {
   );
 
   return (
-    <div className="habit-container">
-      <div className="sidebar">
-        <div className="profile">
+    <div className="habit-container flex h-screen bg-gradient-to-r from-teal-100 to-white">
+      <div className="sidebar w-1/4 bg-white shadow-lg p-6 rounded-lg">
+        <div className="profile flex flex-col items-center">
           <input
             type="file"
             id="photoUpload"
@@ -175,11 +175,12 @@ function Habit() {
               }
             }}
           />
-          <label htmlFor="photoUpload">
+          <label htmlFor="photoUpload" className="cursor-pointer">
             <img
               id="profilePic"
               src={userInfo.profilePic}
               alt="Profile Photo"
+              className="w-24 h-24 rounded-full border-2 border-teal-500 mb-4"
             />
           </label>
           <input
@@ -188,53 +189,55 @@ function Habit() {
             placeholder="Enter Your Good Name"
             value={userInfo.name}
             onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+            className="border-2 border-teal-500 rounded-lg p-2 text-center mb-2 w-full"
           />
-          <p id="displayName">Welcome, {userInfo.name || "User "}</p>
+          <p id="displayName" className="text-lg font-semibold text-teal-600">
+            Welcome, {userInfo.name || "User"}
+          </p>
         </div>
 
-        <div className="menu">
-          <h3>Time Sections</h3>
-          <ul>
-            <li onClick={() => setActiveSection("morning")}>🌅 Morning</li>
-            <li onClick={() => setActiveSection("noon")}>☀️ Noon</li>
-            <li onClick={() => setActiveSection("evening")}>🌙 Evening</li>
-            <li onClick={() => setActiveSection("report")}>🏆 Report</li>
-            <li onClick={() => setActiveSection("video")}>🎬 Video</li>
+        <div className="menu mt-6">
+          <h3 className="font-bold text-lg mb-2 text-teal-600">Time Sections</h3>
+          <ul className="space-y-2">
+            <li className="cursor-pointer hover:text-teal-500" onClick={() => setActiveSection("morning")}>🌅 Morning</li>
+            <li className="cursor-pointer hover:text-teal-500" onClick={() => setActiveSection("noon")}>☀️ Noon</li>
+            <li className="cursor-pointer hover:text-teal-500" onClick={() => setActiveSection("evening")}>🌙 Evening</li>
+            <li className="cursor-pointer hover:text-teal-500" onClick={() => setActiveSection("report")}>🏆 Report</li>
+            <li className="cursor-pointer hover:text-teal-500" onClick={() => setActiveSection("video")}>🎬 Video</li>
           </ul>
         </div>
       </div>
 
-      <div className="content">
-        {loading && <p>Loading habits...</p>}
-        {error && <p className="error">{error}</p>}
-        {(activeSection === "morning" ||
-          activeSection === "noon" ||
-          activeSection === "evening") && (
-          <div className="habit-section">
-            <h3>
-              {activeSection === "morning"
-                ? "🌅 Morning Habits"
-                : activeSection === "noon"
-                ? "☀️ Noon Habits"
-                : "🌙 Evening Habits"}
+      <div className="content w-3/4 p-6 bg-white rounded-lg shadow-md overflow-y-auto">
+        {loading && <p className="text-gray-500">Loading habits...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
+        {(activeSection === "morning" || activeSection === "noon" || activeSection === "evening") && (
+          <div className="habit-section bg-gray-100 shadow-md rounded-lg p-5 mt-4">
+            <h3 className="text-3xl font-semibold text-teal-700 mb-4">
+              {activeSection === "morning" ? "🌅 Morning Habits" : activeSection === "noon" ? "☀️ Noon Habits" : "🌙 Evening Habits"}
             </h3>
-            <input
-              type="text"
-              placeholder="Add a new habit..."
-              value={newHabit}
-              onChange={(e) => setNewHabit(e.target.value)}
-            />
-            <button onClick={addHabitToDatabase}>ADD HABIT</button>
+            <div className="flex items-center mb-4">
+              <input
+                type="text"
+                placeholder="Add a new habit..."
+                value={newHabit}
+                onChange={(e) => setNewHabit(e.target.value)}
+                className="border-2 border-teal-500 rounded-lg p-2 flex-grow"
+              />
+              <button onClick={addHabitToDatabase} className="bg-teal-500 text-white rounded-lg px-4 py-2 hover:bg-teal-600 ml-2">ADD</button>
+            </div>
 
             {editingHabit && (
-              <div>
+              <div className="flex items-center mb-4">
                 <input
                   type="text"
                   value={editingHabitName}
                   onChange={(e) => setEditingHabitName(e.target.value)}
+                  className="border-2 border-teal-500 rounded-lg p-2 flex-grow"
                 />
-                <button onClick={saveEditedHabit}>SAVE</button>
-                <button onClick={() => setEditingHabit(null)}>CANCEL</button>
+                <button onClick={saveEditedHabit} className="bg-teal-500 text-white rounded-lg px-4 py-2 hover:bg-teal-600 ml-2">SAVE</button>
+                <button onClick={() => setEditingHabit(null)} className="bg-red-500 text-white rounded-lg px-4 py-2 hover:bg-red-600 ml-2">CANCEL</button>
               </div>
             )}
 
@@ -246,66 +249,18 @@ function Habit() {
             />
           </div>
         )}
+
         {activeSection === "report" && (
-          <div className="habit-tracker">
-            <h1>🏆 Your Progress Report</h1>
-            <div className="progress-section">
-              <h2>Overall Habit Progress</h2>
-              <p>Total Habits: {calculateTotalHabits()}</p>
-              <p>Completed Habits: {calculateCompletedHabits()}</p>
-              <p>
-                Progress:{" "}
-                {calculateTotalHabits() > 0
-                  ? Math.round(
-                      (calculateCompletedHabits() / calculateTotalHabits()) *
-                        100
-                    )
-                  : 0}
-                %
-              </p>
-            </div>
-
-            <div className="habit-details">
-              <h2>Habit Details by Section</h2>
-
-              <div className="habit-category">
-                <h3>🌅 Morning Habits</h3>
-                <HabitList
-                  habits={habits.morning}
-                  onDelete={deleteHabit}
-                  onToggle={toggleHabit}
-                  onEdit={startEditing}
-                />
-              </div>
-
-              <div className="habit-category">
-                <h3>☀️ Noon Habits</h3>
-                <HabitList
-                  habits={habits.noon}
-                  onDelete={deleteHabit}
-                  onToggle={toggleHabit}
-                  onEdit={startEditing}
-                />
-              </div>
-
-              <div className="habit-category">
-                <h3>🌙 Evening Habits</h3>
-                <HabitList
-                  habits={habits.evening}
-                  onDelete={deleteHabit}
-                  onToggle={toggleHabit}
-                  onEdit={startEditing}
-                />
-              </div>
-            </div>
-
-            <button onClick={handleSubmitProgress} className="submit-btn">
-              Submit Progress
-            </button>
+          <div className="report-section bg-gray-100 shadow-md rounded-lg p-5 mt-4">
+            <h3 className="text-3xl font-semibold text-teal-700 mb-4">🏆 Report</h3>
+            <p className="text-lg text-gray-700">
+              Completed {calculateCompletedHabits()} out of {calculateTotalHabits()} habits.
+            </p>
+            <button onClick={handleSubmitProgress} className="bg-teal-500 text-white rounded-lg px-4 py-2 hover:bg-teal-600 mt-4">Submit Progress</button>
           </div>
-        )}{" "}
-        {activeSection === "video" && <Video />}{" "}
-        {/* Render Video component here */}
+        )}
+
+        {activeSection === "video" && <Video />}
       </div>
     </div>
   );
